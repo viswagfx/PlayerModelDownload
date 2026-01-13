@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;900&display=swap" rel="stylesheet">
+  <title>Avatar 3D Downloader | Viswa</title>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1a1d24;
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg-container {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg {
+      filter: blur(40px);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.15);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      margin-top: 10px;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    header h1 {
+      font-size: clamp(36px, 6vw, 70px);
+      font-weight: 900;
+      margin: 0;
+      text-shadow: 3px 3px 4px rgba(0,0,0,0.3);
+      letter-spacing: -2px;
+    }
+
+    header p {
+      font-size: 16px;
+      font-weight: 300;
+      opacity: 0.8;
+      margin-top: 10px;
+    }
+
+    .card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.6s ease backwards;
+      overflow: hidden;
+    }
+
+    .section-title {
+      width: 100%;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 20px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      color: #ff3333;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.35);
+      color: white;
+      outline: none;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: rgba(255, 51, 51, 0.6);
+      box-shadow: 0 0 0 4px rgba(255, 51, 51, 0.12);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+.center-row{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+    button {
+      padding: 14px 16px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      transition: 0.25s;
+      white-space: nowrap;
+    }
+.full-btn {
+  width: 100%;
+  margin-top: 14px;
+  padding: 16px;
+  font-size: 15px;
+  border-radius: 18px;
+}
+
+.small-btn {
+  width: 35%;
+  margin: 10px auto 0 auto;
+  display: block;
+  opacity: 0.85;
+  padding: 12px;
+  border-radius: 16px;
+}
+
+
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .primary {
+      background: #ff3333;
+      color: white;
+    }
+
+    .primary:hover {
+      background: #ff5555;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 51, 51, 0.25);
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.85);
+    }
+
+    .secondary:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+    }
+
+    .status {
+      margin-top: 18px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      max-height: 260px;
+      overflow: auto;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .badge.ok {
+      background: rgba(0, 255, 127, 0.15);
+      border: 1px solid rgba(0, 255, 127, 0.25);
+      color: #7CFFB7;
+    }
+
+    .badge.warn {
+      background: rgba(255, 204, 0, 0.12);
+      border: 1px solid rgba(255, 204, 0, 0.22);
+      color: #ffd35a;
+    }
+
+    .badge.err {
+      background: rgba(255, 51, 51, 0.12);
+      border: 1px solid rgba(255, 51, 51, 0.28);
+      color: #ff6b6b;
+    }
+
+    .back-home {
+      margin-top: 25px;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+
+    .back-home:hover {
+      color: white;
+      border-bottom: 1px solid #ff3333;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-container">
+    <img class="bg" src="https://img.freepik.com/free-vector/circles-background-dark-tones_60389-166.jpg" alt="Background">
+  </div>
+
+  <div class="container">
+    <header>
+      <h1>Avatar Files Downloader</h1>
+      <p>Download Roblox avatar 3D files</p>
+    </header>
+
+    <div class="card">
+      <div class="section-title">Downloader</div>
+
+      <label for="usernameInput">Roblox Username</label>
+   <input id="usernameInput" type="text" placeholder="example: Builderman" />
+
+<button id="downloadBtn" class="primary full-btn">Download ZIP</button>
+
+<div class="center-row">
+  <button id="clearBtn" class="secondary small-btn">Clear Logs</button>
+</div>
+
+
+
+      <div class="status" id="statusBox">
+        <span class="badge warn">Waiting</span>
+        Enter a username and click Download ZIP.
+      </div>
+    </div>
+
+    <a href="https://viswa.top/directory" class="back-home">← Back</a>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
